@@ -1,0 +1,9 @@
+vendor/
+node_modules/
+assets/images
+*.php
+*.map
+*.json
+LICENSE
+composer.lock
+*.txt

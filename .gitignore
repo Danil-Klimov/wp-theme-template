@@ -1,0 +1,7 @@
+node_modules
+.idea
+.gulp
+composer.lock
+bash.exe.stackdump
+*.rar
+*.zip

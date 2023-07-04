@@ -1,0 +1,41 @@
+@mixin lg {
+	@media screen and (max-width: 1199px) {
+		@content;
+	}
+}
+
+@mixin md {
+	@media screen and (max-width: 991px) {
+		@content;
+	}
+}
+
+@mixin sm {
+	@media screen and (max-width: 768px) {
+		@content;
+	}
+}
+
+@mixin xs {
+	@media screen and (max-width: 576px) {
+		@content;
+	}
+}
+
+@mixin from($min_width) {
+	@media screen and (min-width: $min_width) {
+		@content;
+	}
+}
+
+@mixin to($max_width) {
+	@media screen and (max-width: $max_width) {
+		@content;
+	}
+}
+
+@mixin from-to($min_width, $max_width) {
+	@media screen and (min-width: $min_width) and (max-width: $max_width) {
+		@content;
+	}
+}
