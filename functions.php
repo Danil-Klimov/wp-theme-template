@@ -20,6 +20,8 @@ if (!function_exists('adem_setup')) {
 				'menu_main' => 'Основное меню',
 			)
 		);
+
+		remove_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
 	}
 
 	//	register thumbnails
@@ -30,6 +32,10 @@ if (!function_exists('adem_setup')) {
 add_action('wp_enqueue_scripts', 'adem_scripts');
 function adem_scripts()
 {
+	wp_dequeue_style('classic-theme-styles');
+	wp_dequeue_style('wp-block-library');
+	wp_dequeue_style('wp-block-library-theme');
+	wp_dequeue_style('global-styles');
 	wp_enqueue_style('fancybox', get_template_directory_uri() . '/assets/vendor/css/fancybox.css', array(), '4.0.27');
 	wp_enqueue_script('fancybox', get_template_directory_uri() . '/assets/vendor/js/fancybox.umd.js', array(), '4.0.27', true);
 	wp_enqueue_style('swiper', get_template_directory_uri() . '/assets/vendor/css/swiper-bundle.min.css', array(), '8.1.5');
