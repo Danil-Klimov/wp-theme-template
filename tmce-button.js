@@ -62,7 +62,7 @@
 								for (let i = 0; i < e.data.rows; i++) {
 									table += '<tr>' + cols + '</tr>';
 								}
-								editor.insertContent('<div class="article-table"><table>' + table + '</table></div>');
+								editor.insertContent('<div class="st-table"><table>' + table + '</table></div>');
 							}
 						});
 					}

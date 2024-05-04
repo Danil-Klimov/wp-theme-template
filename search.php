@@ -1,12 +1,12 @@
 <?php get_header(); ?>
 
 <section class="">
-	<?php if (have_posts()) : ?>
+	<?php if ( have_posts() ) : ?>
 		<h1 class="">
-			<?php printf('Результат поиска для: %s', '<span>' . get_search_query() . '</span>'); ?>
+			<?php printf( 'Результат поиска для: %s', '<span>' . get_search_query() . '</span>' ); ?>
 		</h1>
 
-		<?php while (have_posts()) : the_post(); ?>
+		<?php while ( have_posts() ) : the_post(); ?>
 			<?php the_title(); ?>
 		<?php endwhile; ?>
 

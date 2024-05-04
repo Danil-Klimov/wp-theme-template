@@ -48,6 +48,11 @@ img {
 		float: left;
 		margin: 8px 16px 8px 0;
 	}
+
+	&.aligncenter {
+		display: block;
+		margin: 8px auto;
+	}
 }
 
 button {

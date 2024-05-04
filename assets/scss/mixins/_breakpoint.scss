@@ -1,22 +1,28 @@
-@mixin lg {
-	@media screen and (max-width: 1199px) {
+@mixin laptop {
+	@media screen and (max-width: 1440px) {
 		@content;
 	}
 }
 
-@mixin md {
-	@media screen and (max-width: 991px) {
+@mixin laptop-sm {
+	@media screen and (max-width: 1280px) {
 		@content;
 	}
 }
 
-@mixin sm {
+@mixin table {
+	@media screen and (max-width: 1024px) {
+		@content;
+	}
+}
+
+@mixin table-sm {
 	@media screen and (max-width: 768px) {
 		@content;
 	}
 }
 
-@mixin xs {
+@mixin mob {
 	@media screen and (max-width: 576px) {
 		@content;
 	}

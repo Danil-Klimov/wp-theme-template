@@ -12,6 +12,13 @@
 		"selector-pseudo-element-colon-notation": null,
 		"number-leading-zero": null,
 		"no-descending-specificity": null,
-		"length-zero-no-unit": [true, {"ignore": ["custom-properties"]}]
+		"length-zero-no-unit": [
+			true,
+			{
+				"ignore": [
+					"custom-properties"
+				]
+			}
+		]
 	}
 }
