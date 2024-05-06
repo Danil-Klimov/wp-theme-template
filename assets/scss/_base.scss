@@ -17,7 +17,7 @@ body {
 	color: var(--color-main);
 	font-weight: 400;
 	font-size: 16px;
-	font-family: var(--font-primary);
+	font-family: var(--font-primary), sans-serif;
 	background-color: #fff;
 }
 
@@ -100,7 +100,7 @@ address {
 	position: relative;
 	max-width: 1140px;
 	margin: 0 auto;
-	@include lg {
+	@include laptop {
 		max-width: 100%;
 		margin: 0 0.75rem;
 	}

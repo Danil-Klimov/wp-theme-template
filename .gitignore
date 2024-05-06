@@ -1,7 +1,8 @@
-node_modules
 .idea
 .gulp
+node_modules
 composer.lock
+package-lock.json
 bash.exe.stackdump
 *.rar
 *.zip

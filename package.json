@@ -10,8 +10,8 @@
     "extends @wordpress/browserslist-config"
   ],
   "devDependencies": {
-    "@wordpress/browserslist-config": "^5.39.0",
-    "@wordpress/stylelint-config": "^21.39.0",
+    "@wordpress/browserslist-config": "^5.40.0",
+    "@wordpress/stylelint-config": "^21.40.0",
     "autoprefixer": "^10.4.19",
     "browser-sync": "^3.0.2",
     "gulp": "^5.0.0",
@@ -23,8 +23,8 @@
     "postcss": "^8.4.38",
     "postcss-csso": "^6.0.1",
     "postcss-sort-media-queries": "^5.2.0",
-    "sass": "^1.75.0",
-    "stylelint": "^16.4.0",
+    "sass": "^1.76.0",
+    "stylelint": "^14.2.0",
     "stylelint-config-rational-order": "^0.1.2"
   },
   "dependencies": {
