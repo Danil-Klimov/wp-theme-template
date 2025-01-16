@@ -1,7 +1,15 @@
-<?php get_header(); ?>
+<?php
+/**
+ * The Page template
+ *
+ * @package Theme_name
+ * @since 1.0.0
+ */
 
-<?php get_template_part( 'layouts/partials/blocks' ); ?>
+get_header();
 
-<?php the_content(); ?>
+get_template_part( 'layouts/partials/blocks' );
 
-<?php get_footer(); ?>
+the_content();
+
+get_footer();

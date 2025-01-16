@@ -1,5 +1,13 @@
-<?php get_header(); ?>
+<?php
+/**
+ * Single post template
+ *
+ * @package Theme_name
+ * @since 1.0.0
+ */
 
-<?php get_template_part( 'layouts/partials/blocks' ); ?>
+get_header();
 
-<?php get_footer(); ?>
+get_template_part( 'layouts/partials/blocks' );
+
+get_footer();

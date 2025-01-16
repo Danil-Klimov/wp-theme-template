@@ -1,3 +1,13 @@
+<?php
+/**
+ * The Header template
+ *
+ * @package Theme_name
+ * @since 1.0.0
+ */
+
+?>
+
 <!doctype html>
 <html <?php language_attributes(); ?>>
 <head>

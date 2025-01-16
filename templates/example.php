@@ -1,12 +1,14 @@
 <?php
-/*
-Template Name: Template example
-Template Post Type: page
-*/
-?>
+/**
+ * Template Name: Example
+ * Template Post Type: page
+ *
+ * @package Theme_name
+ * @since 1.0.0
+ */
 
-<?php get_header(); ?>
+get_header();
 
-<?php get_template_part( 'layouts/partials/blocks' ); ?>
+get_template_part( 'layouts/partials/blocks' );
 
-<?php get_footer();
+get_footer();

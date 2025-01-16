@@ -5,8 +5,7 @@ const gulp = require('gulp'),
 	sass = require('gulp-sass')(require('sass')),
 	postcss = require('gulp-postcss'),
 	uglify = require('gulp-uglify'),
-	rename = require('gulp-rename'),
-	newer = require('gulp-newer');
+	rename = require('gulp-rename');
 
 // Styles
 function mainStyles() {
@@ -27,9 +26,12 @@ function mainStyles() {
 
 // Scripts
 function mainScripts() {
-	return gulp.src('assets/js/main.js')
+	return gulp.src(['assets/js/*.js', '!assets/js/*.min.js'])
 		.pipe(uglify())
-		.pipe(rename("main.min.js"))
+		.pipe(rename(function (path) {
+			path.basename += ".min";
+			path.extname = ".js";
+		}))
 		.pipe(gulp.dest('assets/js/'))
 		.pipe(browserSync.stream());
 }

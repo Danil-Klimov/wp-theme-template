@@ -1,4 +1,13 @@
-<?php get_header(); ?>
+<?php
+/**
+ * 404 page template.
+ *
+ * @package U-datha
+ * @since 1.0.0
+ */
+
+get_header();
+?>
 
 <section class="not-found">
 	<div class="container">
