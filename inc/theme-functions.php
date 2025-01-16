@@ -94,7 +94,50 @@ function adem_dynamic_thumbnail( $attachment_id, $width, $height, $crop = true, 
 		'src' => $new_img_url,
 		'alt' => trim( wp_strip_all_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ),
 	);
+	$context = apply_filters( 'wp_get_attachment_image_context', 'wp_get_attachment_image' );
 	$attr         = wp_parse_args( $attr, $default_attr );
+
+	$loading_attr              = $attr;
+	$loading_attr['width']     = $width;
+	$loading_attr['height']    = $height;
+	$loading_optimization_attr = wp_get_loading_optimization_attributes(
+		'img',
+		$loading_attr,
+		$context
+	);
+
+	$attr = array_merge( $attr, $loading_optimization_attr );
+
+	if ( empty( $attr['srcset'] ) ) {
+		$image_meta = wp_get_attachment_metadata( $attachment_id );
+
+		if ( is_array( $image_meta ) ) {
+			$size_array = array( absint( $width ), absint( $height ) );
+			$srcset     = wp_calculate_image_srcset( $size_array, $new_img_url, $image_meta, $attachment_id );
+			$sizes      = wp_calculate_image_sizes( $size_array, $new_img_url, $image_meta, $attachment_id );
+
+			if ( $srcset && ( $sizes || ! empty( $attr['sizes'] ) ) ) {
+				$attr['srcset'] = $srcset;
+
+				if ( empty( $attr['sizes'] ) ) {
+					$attr['sizes'] = $sizes;
+				}
+			}
+		}
+	}
+
+	$add_auto_sizes = apply_filters( 'wp_img_tag_add_auto_sizes', true );
+
+	if (
+		$add_auto_sizes &&
+		isset( $attr['loading'] ) &&
+		'lazy' === $attr['loading'] &&
+		isset( $attr['sizes'] ) &&
+		! wp_sizes_attribute_includes_valid_auto( $attr['sizes'] )
+	) {
+		$attr['sizes'] = 'auto, ' . $attr['sizes'];
+	}
+
 	$attr         = array_map( 'esc_attr', $attr );
 	$hwstring     = image_hwstring( $width, $height );
 	$html         = rtrim( "<img $hwstring" );

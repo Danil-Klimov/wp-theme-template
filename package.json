@@ -2,16 +2,7 @@
 	"name": "Theme_name",
 	"version": "1.0.0",
 	"repository": "github:Danil-Klimov/Theme_name.git",
-	"scripts": {
-		"styles": "sass assets/scss/style.scss:style.css --no-source-map && postcss style.css --no-map --use autoprefixer postcss-sort-media-queries postcss-csso -o style.css",
-		"scripts": "uglifyjs assets/js/main.js -o assets/js/main.min.js",
-		"reload": "browser-sync reload",
-		"serve": "browser-sync start --proxy test.loc",
-		"watch:styles": "chokidar \"assets/scss/**/*.scss\" -c \"npm run styles && npm run reload\"",
-		"watch:scripts": "chokidar \"assets/js/main.js\" -c \"npm run scripts && npm run reload\"",
-		"watch:php-images": "chokidar \"./**/*.php\" \"assets/images/*.*\" -c \"npm run reload\"",
-		"dev": "npm-run-all styles scripts --parallel serve watch:styles watch:scripts watch:php-images"
-	},
+	"scripts": {},
 	"author": "Danil Klimov <doink3690@gmail.com>",
 	"license": "ISC",
 	"browserslist": [

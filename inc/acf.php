@@ -21,6 +21,26 @@ function adem_layout_thumbnail_url( $thumbnail, $field, $layout ) {
 	return get_template_directory_uri() . '/layouts/blocks/' . $layout['name'] . '/preview.jpg';
 }
 
+add_action( 'acf/init', 'adem_acf_register_options_pages' );
+/**
+ * Registers option pages.
+ */
+function adem_acf_register_options_pages() {
+	if ( function_exists( 'acf_add_options_page' ) ) {
+		$theme_options = acf_add_options_page(
+			array(
+				'page_title'      => 'Настройки темы',
+				'menu_title'      => 'Настройки темы',
+				'menu_slug'       => 'theme-options',
+				'capability'      => 'edit_posts',
+				'position'        => 64,
+				'update_button'   => 'Обновить',
+				'updated_message' => 'Настройки обновлены',
+			)
+		);
+	}
+}
+
 // TODO времянка. ACFE 0.9.0.5: Fix compatibility with clone on ACF 6.3.2.
 add_action( 'acf/init', 'adem_acfe_fix_clone', 100 );
 function adem_acfe_fix_clone() {
