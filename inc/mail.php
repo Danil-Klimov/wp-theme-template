@@ -140,6 +140,13 @@ function adem_send_mail() {
 		exit;
 	}
 
+	$time_on_page = isset( $_POST['time_on_page'] ) ? sanitize_text_field( wp_unslash( $_POST['time_on_page'] ) ) : 0;
+	$typing_speed = $_POST['typing_speed'] ?? '[]'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.NonceVerification.Missing.
+
+	if ( is_suspicious_submission( $time_on_page, $typing_speed ) ) {
+		exit;
+	}
+
 	$mail    = isset( $_POST['name'] ) ? 'Имя: ' . sanitize_text_field( wp_unslash( $_POST['name'] ) ) . '<br/>' : '';
 	$tel     = isset( $_POST['tel'] ) ? sanitize_text_field( wp_unslash( $_POST['tel'] ) ) : null;
 	$email   = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : null;
@@ -212,24 +219,6 @@ function adem_send_mail() {
 	wp_die();
 }
 
-add_action( 'admin_menu', 'adem_add_mail_menu_bubble' );
-/**
- * Add new emails counter.
- */
-function adem_add_mail_menu_bubble() {
-	global $menu;
-	$count = wp_count_posts( 'mail' )->pending;
-
-	if ( $count ) {
-		foreach ( $menu as $key => $value ) {
-			if ( 'edit.php?post_type=mail' === $menu[ $key ][2] ) {
-				$menu[ $key ][0] .= ' <span class="awaiting-mod"><span class="pending-count">' . $count . '</span></span>';
-				break;
-			}
-		}
-	}
-}
-
 add_filter( 'wp_mail_from_name', 'adem_change_mail_name' );
 /**
  * Changes the name of outgoing mail.
@@ -244,4 +233,54 @@ add_filter( 'wp_mail_from', 'adem_change_mail_email' );
  */
 function adem_change_mail_email(): string {
 	return get_field( 'sender-mail', 'forms' ) ?? get_bloginfo( 'admin_email' );
+}
+
+/**
+ * Detects whether a form submission is likely to be from a bot.
+ *
+ * The function evaluates the time a user spent on the page and their typing speed pattern
+ * to determine suspicious submissions. It also logs request details for further analysis.
+ *
+ * Rules applied:
+ * 1. Submissions with time on page < 3 seconds are flagged as bots.
+ * 2. If typing speed data is empty and time on page < 5 seconds → flagged as bots.
+ * 3. If typing intervals are too uniform (difference < 10 ms across > 5 keystrokes) → flagged as bots.
+ *
+ * @param int $time_on_page Time spent on the page in milliseconds.
+ * @param string $typing_speed_json JSON-encoded array of typing intervals in milliseconds.
+ *
+ * @return bool True if the submission is considered suspicious (likely bot), false otherwise.
+ */
+function is_suspicious_submission( $time_on_page, $typing_speed_json ) {
+	$log      = array(
+		'ip'           => $_SERVER['REMOTE_ADDR'] ?? null, // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.NonceVerification.Missing.
+		'time'         => current_time( 'mysql' ),
+		'time_on_page' => $time_on_page,
+		'typing_speed' => $typing_speed_json,
+		'post'         => $_POST, //phpcs:ignore WordPress.Security.NonceVerification.Missing
+	);
+	$log_line = wp_json_encode( $log, JSON_UNESCAPED_UNICODE ) . PHP_EOL;
+
+	error_log( $log_line, 3, WP_CONTENT_DIR . '/antibot.log' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+
+	$time_on_page = intval( $time_on_page );
+	$typing_speed = json_decode( $typing_speed_json, true );
+
+	if ( $time_on_page < 3000 ) {
+		return true;
+	}
+
+	if ( empty( $typing_speed ) && $time_on_page < 5000 ) {
+		return true;
+	}
+
+	if ( ! empty( $typing_speed ) ) {
+		$min = min( $typing_speed );
+		$max = max( $typing_speed );
+		if ( ( $max - $min ) < 10 && count( $typing_speed ) > 5 ) {
+			return true;
+		}
+	}
+
+	return false;
 }

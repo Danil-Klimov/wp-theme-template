@@ -109,6 +109,20 @@ function setTelMask() {
 }
 
 function sendForms() {
+	const startTime = Date.now();
+	let typingSpeed = [];
+
+	document.querySelectorAll("input, textarea").forEach((field) => {
+		let lastTime = null;
+		field.addEventListener("input", () => {
+			const now = Date.now();
+			if (lastTime) {
+				typingSpeed.push(now - lastTime);
+			}
+			lastTime = now;
+		});
+	});
+
 	document.querySelectorAll('form.js-form').forEach(function (form) {
 		form.addEventListener('submit', function (e) {
 			e.preventDefault();
@@ -120,6 +134,8 @@ function sendForms() {
 
 			if (formName) {
 				formData.append('form_name', formName);
+				formData.append('time_on_page', Date.now() - startTime);
+				formData.append('typing_speed', JSON.stringify(typingSpeed));
 				formData.append('action', 'send_mail');
 				submitBtm.innerHTML = 'Отправляю...'
 			} else {
@@ -138,6 +154,8 @@ function sendForms() {
 					form.reset();
 					form.classList.remove('loading');
 					submitBtm.innerHTML = submitBtnText;
+
+					//if (typeof (ym) === "function") ym(metrika_number, 'reachGoal', 'metrika_ID'); // TODO отправка целей в метрику. Удалить, если не используется.
 
 					setTimeout(function () {
 						Fancybox.show([{
