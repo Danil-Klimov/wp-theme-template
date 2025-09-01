@@ -5,7 +5,7 @@
  * @package Theme_name
  * @since 1.0.0
  */
-
+// TODO удалить, если не используются архивы.
 get_header();
 
 $term_object = get_queried_object();

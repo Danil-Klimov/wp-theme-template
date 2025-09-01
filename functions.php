@@ -5,6 +5,10 @@
  * @package Theme_name
  * @since 1.0.0
  */
+// TODO сделать скриншот темы.
+// TODO заменить Theme_name на название темы во всех файлах темы.
+// TODO в package.json указать автора и репозиторий (если есть).
+// TODO обновить версии модулей в package.json.
 
 define( 'ADEM_THEME_VERSION', '1.0.0' );
 
@@ -42,10 +46,10 @@ function adem_enqueue_scripts() {
 	wp_dequeue_style( 'wp-block-library' );
 	wp_dequeue_style( 'wp-block-library-theme' );
 	wp_dequeue_style( 'global-styles' );
-	wp_enqueue_style( 'fancybox', get_template_directory_uri() . '/assets/vendor/css/fancybox.css', array(), '1.0.0' );
-	wp_enqueue_script( 'fancybox', get_template_directory_uri() . '/assets/vendor/js/fancybox.umd.js', array(), '1.0.0', true );
-	wp_enqueue_style( 'swiper', get_template_directory_uri() . '/assets/vendor/css/swiper-bundle.min.css', array(), '1.0.0' );
-	wp_enqueue_script( 'swiper', get_template_directory_uri() . '/assets/vendor/js/swiper-bundle.min.js', array(), '1.0.0', true );
+	wp_enqueue_style( 'fancybox', get_template_directory_uri() . '/assets/vendor/css/fancybox.css', array(), '1.0.0' ); // TODO прописать версии.
+	wp_enqueue_script( 'fancybox', get_template_directory_uri() . '/assets/vendor/js/fancybox.umd.js', array(), '1.0.0', true ); // TODO прописать версии.
+	wp_enqueue_style( 'swiper', get_template_directory_uri() . '/assets/vendor/css/swiper-bundle.min.css', array(), '1.0.0' ); // TODO прописать версии.
+	wp_enqueue_script( 'swiper', get_template_directory_uri() . '/assets/vendor/js/swiper-bundle.min.js', array(), '1.0.0', true ); // TODO прописать версии.
 	wp_enqueue_style( 'adem', get_stylesheet_uri(), array(), ADEM_THEME_VERSION );
 	wp_enqueue_script( 'adem', get_template_directory_uri() . '/assets/js/main.min.js', array(), ADEM_THEME_VERSION, true );
 	wp_localize_script( 'adem', 'adem_ajax', array( 'url' => admin_url( 'admin-ajax.php' ) ) );
