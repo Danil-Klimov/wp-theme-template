@@ -22,21 +22,22 @@ add_filter( 'wp_check_filetype_and_ext', 'adem_fix_svg_mime_type', 10, 5 );
 /**
  * Fix svg mime type.
  *
- * @param array  $data {
+ * @param array $data {
  *     Values for the extension, mime type, and corrected filename.
  *
- *     @type string|false $ext             File extension, or false if the file doesn't match a mime type.
- *     @type string|false $type            File mime type, or false if the file doesn't match a mime type.
- *     @type string|false $proper_filename File name with its correct extension, or false if it cannot be determined.
+ * @type string|false $ext File extension, or false if the file doesn't match a mime type.
+ * @type string|false $type File mime type, or false if the file doesn't match a mime type.
+ * @type string|false $proper_filename File name with its correct extension, or false if it cannot be determined.
  * }
- * @param string $file      Full path to the file.
- * @param string $filename  The name of the file (may differ from $file due to $file being in a tmp directory).
- * @param array  $mimes     Array of mime types keyed by their file extension regex, or null if none were provided.
+ *
+ * @param string $file Full path to the file.
+ * @param string $filename The name of the file (may differ from $file due to $file being in a tmp directory).
+ * @param array $mimes Array of mime types keyed by their file extension regex, or null if none were provided.
  * @param string $real_mime The actual mime type or false if the type cannot be determined.
  */
 function adem_fix_svg_mime_type( $data, $file, $filename, $mimes, $real_mime = '' ) {
 	if ( version_compare( $GLOBALS['wp_version'], '5.1.0', '>=' ) ) {
-		$dosvg = in_array( $real_mime, array( 'image/svg', 'image/svg+xml' ) );
+		$dosvg = in_array( $real_mime, array( 'image/svg', 'image/svg+xml' ), true );
 	} else {
 		$dosvg = ( '.svg' === strtolower( substr( $filename, - 4 ) ) );
 	}

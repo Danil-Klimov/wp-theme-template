@@ -94,7 +94,7 @@ function adem_dynamic_thumbnail( $attachment_id, $width, $height, $crop = true, 
 		'src' => $new_img_url,
 		'alt' => trim( wp_strip_all_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ),
 	);
-	$context = apply_filters( 'wp_get_attachment_image_context', 'wp_get_attachment_image' );
+	$context      = apply_filters( 'wp_get_attachment_image_context', 'wp_get_attachment_image' );
 	$attr         = wp_parse_args( $attr, $default_attr );
 
 	$loading_attr              = $attr;
@@ -138,9 +138,9 @@ function adem_dynamic_thumbnail( $attachment_id, $width, $height, $crop = true, 
 		$attr['sizes'] = 'auto, ' . $attr['sizes'];
 	}
 
-	$attr         = array_map( 'esc_attr', $attr );
-	$hwstring     = image_hwstring( $width, $height );
-	$html         = rtrim( "<img $hwstring" );
+	$attr     = array_map( 'esc_attr', $attr );
+	$hwstring = image_hwstring( $width, $height );
+	$html     = rtrim( "<img $hwstring" );
 
 	foreach ( $attr as $name => $value ) {
 		$html .= " $name=" . '"' . $value . '"';
