@@ -80,7 +80,7 @@ function setTelMask() {
 			event.keyCode && (keyCode = event.keyCode);
 			let pos = this.selectionStart;
 			if (pos < 3) event.preventDefault();
-			let matrix = "+ 7 ___-___-__-__",
+			let matrix = input.placeholder,
 				i = 0,
 				def = matrix.replace(/\D/g, ""),
 				val = this.value.replace(/\D/g, ""),
