@@ -150,3 +150,49 @@ function adem_dynamic_thumbnail( $attachment_id, $width, $height, $crop = true, 
 
 	return $html;
 }
+
+/**
+ * Sanitizes content with extended allowed HTML tags and optionally echoes it.
+ *
+ * This function extends the default set of allowed HTML tags from
+ * `wp_kses_allowed_html( 'post' )` by adding support for `<iframe>` and `<svg>`
+ * elements with specific attributes. The sanitized content can either be
+ * returned or directly echoed depending on the `$display` parameter.
+ *
+ * @param string $content The HTML content to sanitize.
+ * @param string $tag The tag type to allow additionally (`iframe` or `svg`).
+ * @param bool   $display Whether to echo the sanitized content. Default true.
+ *
+ * @return string The sanitized HTML content.
+ */
+function adem_wp_kses_post_more( $content, $tag, $display = true ) {
+	$allowed_tags = wp_kses_allowed_html( 'post' );
+
+	if ( 'iframe' === $tag ) {
+		$allowed_tags['iframe'] = array(
+			'src'             => true,
+			'width'           => true,
+			'height'          => true,
+			'frameborder'     => true,
+			'allowfullscreen' => true,
+			'allow'           => true,
+			'loading'         => true,
+			'referrerpolicy'  => true,
+		);
+	} elseif ( 'svg' === $tag ) {
+		$allowed_tags['svg'] = array(
+			'width'  => true,
+			'height' => true,
+			'class'  => true,
+		);
+		$allowed_tags['use'] = array(
+			'xlink:href' => true,
+		);
+	}
+
+	if ( $display ) {
+		echo wp_kses( $content, $allowed_tags );
+	}
+
+	return wp_kses( $content, $allowed_tags );
+}
