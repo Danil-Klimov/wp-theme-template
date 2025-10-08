@@ -72,6 +72,23 @@ function slideToggle(target, duration = 500) {
 	}
 }
 
+function getSiblings(elem) {
+	let siblings = [];
+
+	if (!elem.parentNode) {
+		return siblings;
+	}
+	let sibling = elem.parentNode.firstChild;
+
+	while (sibling) {
+		if (sibling.nodeType === 1 && sibling !== elem) {
+			siblings.push(sibling);
+		}
+		sibling = sibling.nextSibling;
+	}
+	return siblings;
+}
+
 function setTelMask() {
 	[].forEach.call(document.querySelectorAll('[type="tel"]'), function (input) {
 		let keyCode;
