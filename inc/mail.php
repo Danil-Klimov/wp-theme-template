@@ -274,10 +274,35 @@ function is_suspicious_submission( $time_on_page, $typing_speed_json ) {
 		return true;
 	}
 
-	if ( ! empty( $typing_speed ) ) {
-		$min = min( $typing_speed );
-		$max = max( $typing_speed );
-		if ( ( $max - $min ) < 10 && count( $typing_speed ) > 5 ) {
+	if ( ! empty( $typing_speed ) && count( $typing_speed ) > 5 ) {
+		$min      = min( $typing_speed );
+		$max      = max( $typing_speed );
+		$avg      = array_sum( $typing_speed ) / count( $typing_speed );
+		$variance = 0;
+
+		foreach ( $typing_speed as $t ) {
+			$variance += pow( $t - $avg, 2 );
+		}
+
+		$std_dev  = sqrt( $variance / count( $typing_speed ) );
+		$coef_var = $std_dev / ( $avg ?: 1 );
+
+		if ( ( $max - $min ) < 16 ) {
+			return true;
+		}
+
+		if ( $coef_var < 0.1 ) {
+			return true;
+		}
+
+		$outliers = array_filter(
+			$typing_speed,
+			function ( $t ) use ( $avg ) {
+				return abs( $t - $avg ) > 50;
+			}
+		);
+
+		if ( count( $outliers ) <= 1 ) {
 			return true;
 		}
 	}
