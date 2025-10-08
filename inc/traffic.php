@@ -41,7 +41,6 @@ function adem_get_user_traffic() {
 
 			foreach ( $search_systems as $search_system ) {
 				if ( strpos( $referrer, $search_system ) !== false ) {
-					$organic                = true;
 					$source_array['source'] = $search_system;
 					$source_array['medium'] = 'organic';
 					break;
@@ -57,9 +56,9 @@ function adem_get_user_traffic() {
 	}
 
 	if ( ! $important_source && isset( $_COOKIE['source_cookie'] ) ) {
-		$source_cookie = json_decode( wp_unslash( $_COOKIE['source_cookie'] ) );
+		$source_cookie = json_decode( wp_unslash( $_COOKIE['source_cookie'] ), true );
 
-		if ( $source_cookie && ! empty( $source_cookie['medium'] ) ) {
+		if ( is_array( $source_cookie ) && ! empty( $source_cookie['medium'] ) ) {
 			$source_array = $source_cookie;
 		}
 	}
@@ -68,10 +67,10 @@ function adem_get_user_traffic() {
 		setcookie( 'source_cookie', wp_json_encode( $source_array ), time() + MONTH_IN_SECONDS, '/' );
 	}
 
-	$html = "Источник - {$source_array['source']}, Канал - {$source_array['medium']}";
-	$html .= $source_array['campaign'] ? ", Кампания - {$source_array['campaign']}" : null;
-	$html .= $source_array['term'] ? ", Объявление - {$source_array['term']}" : null;
-	$html .= $source_array['content'] ? ", Ключевое слово - {$source_array['content']}" : null;
+	$html  = "Источник - {$source_array['source']}, Канал - {$source_array['medium']}";
+	$html .= ! empty( $source_array['campaign'] ) ? ", Кампания - {$source_array['campaign']}" : '';
+	$html .= ! empty( $source_array['term'] ) ? ", Объявление - {$source_array['term']}" : '';
+	$html .= ! empty( $source_array['content'] ) ? ", Ключевое слово - {$source_array['content']}" : '';
 
 	if ( ! headers_sent() ) {
 		setcookie( 'traffic_source', $html, time() + MONTH_IN_SECONDS, '/' );
